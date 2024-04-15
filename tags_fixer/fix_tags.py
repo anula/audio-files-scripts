@@ -5,7 +5,8 @@ import os
 import re
 
 
-def apply_tags(path, artist, album, title, tracknumber, confirm=False, verbose=False):
+def apply_tags(
+    path, artist, album, title, tracknumber, confirm=False, verbose=False):
   update_tags = {
     'ALBUM': [album],
     'TITLE': [title],
@@ -41,8 +42,10 @@ def get_all_files_in_path(path):
   return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 
-TRACK_NO_RE = re.compile('Track ([0-9]+)\.(wav|mp3)')
-TITLE_NO_RE = re.compile('(?P<no>[0-9]+)(\.| -)? (?P<name>.+)\.(wav|mp3)')
+TRACK_NO_RE = re.compile(r'Track ([0-9]+)\.(wav|mp3)')
+TITLE_NO_RE = re.compile(r'(?P<no>[0-9]+)(\.| -)? (?P<name>.+)\.(wav|mp3)')
+
+
 # Return track no
 def parse_track_no(filename):
   m = TRACK_NO_RE.match(filename)
@@ -67,12 +70,13 @@ def get_all_dirs_in_path(path):
 
 
 parser = argparse.ArgumentParser(
-  prog='FixMetadata',
-  description='Fix metadata of tracks for violin')
+    prog='FixMetadata',
+    description='Fix metadata of tracks for violin')
 parser.add_argument('-c', '--confirm_each_file', action='store_true',
-                   default=False)
+                    default=False)
 parser.add_argument('-v', '--verbose', action='store_true', default=False)
 parser.add_argument('-d', '--directories', nargs='+', default=None)
+
 
 def main():
   args = parser.parse_args()
@@ -87,7 +91,7 @@ def main():
       continue
 
     artist = click.prompt('What artist to use? [empty for None]', default='',
-                 show_default=False)
+                          show_default=False)
     if not artist:
       artist = None
 
@@ -107,6 +111,7 @@ def main():
           confirm=args.confirm_each_file,
           verbose=args.verbose,
         )
+
 
 if __name__ == "__main__":
   main()
