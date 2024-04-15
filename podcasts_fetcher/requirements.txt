@@ -1,0 +1,6 @@
+click==8.0.3
+feedparser==6.0.10
+mutagen==1.46.0
+pytaglib==2.0.0
+Requests==2.31.0
+xmltodict==0.13.0
