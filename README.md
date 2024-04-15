@@ -7,9 +7,9 @@ consumption. I would not suggest using them yet.
 
 Currently there are two scripts in this repo:
 
-## Metadata fixer
+## Tags fixer
 
-In [metadata_fixer/ directory](metadata_fixer/).
+In [tags_fixer/ directory](metadata_fixer/).
 
 This one is currently very simple - it updates ID3 tags based on file names and
 additional information provided manually during the run.
