@@ -14,6 +14,7 @@ from ..common.data_model import TagSet
 
 ArgsType = TypeVar('ArgsType')
 
+
 class AbstractTagProvider(ABC, Generic[ArgsType]):
 
   @abstractmethod
@@ -29,3 +30,6 @@ class AbstractTagProvider(ABC, Generic[ArgsType]):
   @abstractmethod
   def tags_for_file(self, filename: str) -> TagSet:
     pass
+
+
+print(TagSet([]))
