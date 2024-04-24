@@ -1,2 +1,2 @@
 def test_always_passes():
-  assert True == True
+  assert 2 + 2 == 4

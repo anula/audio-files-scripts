@@ -1,21 +1,21 @@
 # A small utility to download new episodes of specified podcasts and tag
 # them accordingly.
 import argparse
-import click
-import feedparser
+import click  # pytype: disable=import-error
+import feedparser  # pytype: disable=import-error
 import json
 import logging
-import mutagen
+import mutagen  # pytype: disable=import-error
 import os
 import re
 import requests
-import taglib
+import taglib  # pytype: disable=import-error
 import time
 import urllib
 import xmltodict
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 
 ID_TAG_NAME = 'RSS_ID'
@@ -41,6 +41,7 @@ class PodcastMetadata:
   rss_feed_url: str = ''
   podcast_dir: str = ''
 
+
 REQUIRED_METADATA_FIELDS = ['title', 'rss_feed_url']
 
 
@@ -48,7 +49,7 @@ def get_all_files_in_path(path):
   return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 
-def get_all_existing_ids(path: str) -> Dict[str, str]:
+def get_all_existing_ids(path: str) -> set[str]:
   ids = set()
   for file in get_all_files_in_path(path):
     file = os.path.join(path, file)
@@ -62,7 +63,8 @@ def get_all_existing_ids(path: str) -> Dict[str, str]:
   return ids
 
 
-def parse_rss_item(feed: Dict, rss_item: Dict) -> Optional[EpisodeMetadata]:
+def parse_rss_item(feed: feedparser.util.FeedParserDict, rss_item:
+                   feedparser.util.FeedParserDict) -> Optional[EpisodeMetadata]:
   if not rss_item.enclosures:
     return None
   if not rss_item.enclosures[0].type.startswith('audio'):
@@ -91,18 +93,20 @@ def remove_existing_tags(filename: str):
 
 def fix_episode_metadata(filename: str, metadata: EpisodeMetadata):
   new_tags = {
-    'TITLE': [ metadata.title ],
-    'ARTIST': [ metadata.artist ],
-    'ALBUM': [ metadata.album ],
-    ID_TAG_NAME: [ metadata.id ],
-    'DATE': [ metadata.creation_date ],
-    'GENRE': [ metadata.genre ],
+    'TITLE': [metadata.title],
+    'ARTIST': [metadata.artist],
+    'ALBUM': [metadata.album],
+    ID_TAG_NAME: [metadata.id],
+    'DATE': [metadata.creation_date],
+    'GENRE': [metadata.genre],
   }
   with taglib.File(filename, save_on_exit=True) as episode:
     episode.tags = new_tags
 
 
 NON_FILENAME_CHAR_RE = re.compile('[^a-zA-Z0-9 ._-]')
+
+
 def escape_filename(filename: str) -> str:
   return re.sub(NON_FILENAME_CHAR_RE, '_', filename)
 
@@ -134,10 +138,10 @@ def download_missing_episodes(
   with click.progressbar(to_download) as episodes:
     for episode in episodes:
       download_episode(episode, working_dir)
-    
+
 
 # Workaround for https://github.com/kurtmckee/feedparser/issues/316
-def fix_feed_metadata(feed: Dict, rss_url: str):
+def fix_feed_metadata(feed: feedparser.util.FeedParserDict, rss_url: str):
   resp = requests.get(rss_url)
   raw_xml = xmltodict.parse(resp.content)
   feed.author = raw_xml['rss']['channel']['itunes:author']
@@ -194,19 +198,20 @@ parser.add_argument('-d', '--working_dir', type=str,
                     default='.',
                     help='Catalog to be searched for subdirs with podcasts')
 
+
 def main():
   args = parser.parse_args()
 
   podcasts = list_podcasts(args.working_dir)
   if not podcasts:
-    print(f'Found no podcasts in the given directory')
+    print('Found no podcasts in the given directory')
     return
 
-  print(f'Found the following podcasts:')
+  print('Found the following podcasts:')
   for idx, podcast in enumerate(podcasts):
     print(f'  [{idx}] {podcast.title}')
 
-  print(f'What podcasts to work on? [no=cancel/empty=all]: ')
+  print('What podcasts to work on? [no=cancel/empty=all]: ')
   resp = input().strip().lower()
   if resp == 'no':
     print('Cancelling...')
@@ -227,7 +232,6 @@ def main():
 
   for idx in to_process:
     process_podcast(podcasts[idx])
-
 
 
 if __name__ == "__main__":
