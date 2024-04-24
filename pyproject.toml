@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anulataggingpkg"
+version = "0.0.1"
+description = "Package with scripts for managing tagging/downloading of audio files."
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+  "click>=8.0.3",
+  "pytaglib>=2.0.0",
+  "feedparser>=6.0.10",
+  "mutagen>=1.46.0",
+  "pytaglib>=2.0.0",
+  "Requests>=2.31.0",
+  "xmltodict>=0.13.0",
+  "urllib3==2.2.1",
+]
+
+[project.scripts]
+fix_tags = "anulataggingpkg.tags_fixer.fix_tags:main"
+fetch_podcasts = "anulataggingpkg.podcasts_fetcher.fetch_podcasts:main"

@@ -1,6 +1,6 @@
 import argparse
-import click
-import taglib
+import click  # pytype: disable=import-error
+import taglib  # pytype: disable=import-error
 import os
 import re
 
