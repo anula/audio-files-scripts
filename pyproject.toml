@@ -17,6 +17,7 @@ dependencies = [
   "pytaglib>=2.0.0",
   "Requests>=2.31.0",
   "xmltodict>=0.13.0",
+  "urllib3==2.2.1",
 ]
 
 [project.scripts]
