@@ -9,7 +9,7 @@ Tag provider is responsible for:
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 
-from ..common.data_model import TagSet
+from anulataggingpkg.common.data_model import TagSet
 
 
 ArgsType = TypeVar('ArgsType')
@@ -18,7 +18,7 @@ ArgsType = TypeVar('ArgsType')
 class AbstractTagProvider(ABC, Generic[ArgsType]):
 
   @abstractmethod
-  def prepare_context_data(self, args: ArgsType):
+  def prepare_context_data(self, args: ArgsType, directory_name: str):
     """Initialize context data needed to decide tags per file.
 
     The context might be all based on the provided command line arguments but
@@ -30,6 +30,3 @@ class AbstractTagProvider(ABC, Generic[ArgsType]):
   @abstractmethod
   def tags_for_file(self, filename: str) -> TagSet:
     pass
-
-
-print(TagSet([]))

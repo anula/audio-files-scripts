@@ -10,16 +10,17 @@ readme = "README.md"
 requires-python = ">=3.10"
 
 dependencies = [
+  "Requests>=2.31.0",
   "click>=8.0.3",
-  "pytaglib>=2.0.0",
   "feedparser>=6.0.10",
   "mutagen>=1.46.0",
   "pytaglib>=2.0.0",
-  "Requests>=2.31.0",
-  "xmltodict>=0.13.0",
+  "pytaglib>=2.0.0",
+  "simple_parsing==0.1.5",
   "urllib3==2.2.1",
+  "xmltodict>=0.13.0",
 ]
 
 [project.scripts]
-fix_tags = "anulataggingpkg.tags_fixer.fix_tags:main"
+fix_tags = "anulataggingpkg.tags_fixer.main:main"
 fetch_podcasts = "anulataggingpkg.podcasts_fetcher.fetch_podcasts:main"
